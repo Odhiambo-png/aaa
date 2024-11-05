@@ -3,237 +3,357 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Styled Navigation</title>
+    <title>Voting System</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-image: url('images/backgroundchick.jpg'); /* Replace 'background.jpg' with your image file */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            text-align: center;
         }
-
-        nav {
-            background-color: rgba(51, 51, 51, 0.8);
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .nav-logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-logo img {
-            height: 40px;
-            width: auto;
-            margin-right: 5%;
-        }
-
-        .nav-title {
-            color: #ffd700;
-            font-size: 24px;
-            font-weight: bold;
-            text-transform: lowercase;
-            letter-spacing: 2px;
-        }
-
-        .nav-title::first-letter {
-            text-transform: uppercase;
-        }
-
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-        }
-
-        nav ul li {
-            margin: 0 15px;
-        }
-
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            padding: 10px 15px;
-            display: block;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        nav ul li a:hover {
-            background-color: #555;
-            color: #ffd700;
-        }
-
-        .content-section {
-            display: none; /* Hide all sections initially */
-            padding: 50px 20px;
-            color: #fff;
-            text-align: left;
-        }
-
-        .active {
-            display: block; /* Display only the active section */
-        }
-
-        /* Chickens Section Styles */
-        .chickens-gallery {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .chicken-item {
-            margin: 15px 0;
-            padding: 10px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            width: 80%;
-            max-width: 500px; /* Adjust width as needed */
-            text-align: center; /* Center-align text and buttons */
-        }
-
-        .chicken-item img {
-            width: 50%; /* Resize image to half */
-            height: auto;
-            border-bottom: 2px solid #ddd;
-            margin-bottom: 10px;
-        }
-
-        .chicken-item button {
-            background-color: #ffd700;
-            border: none;
-            color: #fff;
-            padding: 10px;
-            text-transform: uppercase;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        .chicken-item button:hover {
-            background-color: #e6c34f;
-        }
-
-        .description {
-            margin: 10px 0;
-        }
-
-        .price {
-            color: #ffd700;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .contact-info {
-            display: none;
-            margin: 10px 0;
-            font-size: 14px;
-            color: #333;
-        }
+        .form-section, .form-fields, .results-section { display: none; }
+        .form-fields { margin-top: 10px; }
+        input[type="text"] { display: block; margin-bottom: 10px; width: 30%; }
+        button { margin: 5px 0; }
+        .position { margin-top: 30px; font-size: 24px; font-weight: bold; }
+        .picture-space { display: flex; justify-content: center; align-items: center; margin-top: 10px; }
+        .picture { width: 18%; height: 100px; margin: 0 1%; border: 1px dashed #ccc; background-color: #f9f9f9; position: relative; cursor: pointer; }
+        .tick { display: none; position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); color: green; font-size: 20px; }
+        .hidden { display: none; } /* Class to hide unselected pictures */
     </style>
 </head>
 <body>
 
-<nav>
-    <div class="nav-logo">
-        <img src="images/chicke.jpg" alt="Logo"> <!-- Replace 'logo.png' with your image file -->
-        <div class="nav-title">marikuku</div>
+    <h2>Welcome to the Voting System</h2>
+
+    <!-- Main Buttons -->
+    <button id="voterButton" onclick="showVoterOptions()">Voter</button>
+    <button id="candidateButton" onclick="showCandidateOptions()">Candidate</button>
+
+    <!-- Voter Options -->
+    <div id="voterSection" class="form-section">
+        <button id="registerButton" onclick="showRegisterForm()">Register</button>
+        <button id="loginButton" onclick="showLoginForm()">Login</button>
+
+        <!-- Registration Form -->
+        <div id="registerForm" class="form-fields">
+            <h3>Voter Registration</h3>
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" placeholder="Enter First Name">
+            <label for="secondName">Second Name:</label>
+            <input type="text" id="secondName" placeholder="Enter Second Name">
+            <label for="idNumber">ID Number:</label>
+            <input type="text" id="idNumber" placeholder="Enter ID Number">
+            <label for="phoneNumber">Phone Number:</label>
+            <input type="text" id="phoneNumber" placeholder="Enter Phone Number">
+            <label for="voterNumber">Voter Number:</label>
+            <input type="text" id="voterNumber" placeholder="Enter Voter Number">
+            <button onclick="submitVoter('register')">Submit Registration</button>
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginForm" class="form-fields">
+            <h3>Voter Login</h3>
+            <label for="loginName">Name:</label>
+            <input type="text" id="loginName" placeholder="Enter Your Name">
+            <label for="loginIdNumber">ID Number:</label>
+            <input type="text" id="loginIdNumber" placeholder="Enter ID Number">
+            <label for="loginVoterNumber">Voter Number:</label>
+            <input type="text" id="loginVoterNumber" placeholder="Enter Voter Number">
+            <button onclick="submitVoter('login')">Submit Login</button>
+        </div>
     </div>
-    <ul>
-        <li><a href="#" onclick="showSection('home')">Home</a></li>
-        <li><a href="#" onclick="showSection('chickens')">Chickens</a></li>
-        <li><a href="#" onclick="showSection('about')">About Us</a></li>
-        <li><a href="#" onclick="showSection('contact')">Contact Us</a></li>
-        <li><a href="#" onclick="showSection('blog')">Blog</a></li>
-    </ul>
-</nav>
 
-<section id="home" class="content-section active">
-    <h1>Welcome to Marikuku</h1>
-    <p>At Marikuku, we offer the finest selection of premium chickens and poultry products, available for delivery right to your doorstep. Our online chicken business ensures that you have access to high-quality, fresh, and healthy chicken options, tailored to meet all your culinary needs. Whether you're preparing a family dinner or stocking up for a special event, Marikuku is your trusted source for exceptional poultry products. Explore our range today and experience the difference!</p>
-</section>
+    <!-- Candidate Options -->
+    <div id="candidateSection" class="form-section">
+        <button id="candidateRegisterButton" onclick="showCandidateRegisterForm()">Register</button>
+        <button id="candidateLoginButton" onclick="showCandidateLoginForm()">Login</button>
 
-<section id="chickens" class="content-section">
-    <h1>Our Chickens</h1>
-    <div class="chickens-gallery">
-        <div class="chicken-item">
-            <img src="images/webcollection1.webp" alt="Chicken 1"> <!-- Replace with your image file -->
-            <div class="description">Delicious free-range chicken cutlets</div>
-            <div class="price" onclick="toggleContact('contact1')">$19.99</div>
-            <div id="contact1" class="contact-info">
-                Contact us at: (123) 456-7890<br>
-                Email: info@marikuku.com
-            </div>
-            <button>Order</button>
+        <!-- Candidate Registration Form -->
+        <div id="candidateRegisterForm" class="form-fields">
+            <h3>Candidate Registration</h3>
+            <label for="candidateFirstName">First Name:</label>
+            <input type="text" id="candidateFirstName" placeholder="Enter First Name">
+            <label for="candidateSecondName">Second Name:</label>
+            <input type="text" id="candidateSecondName" placeholder="Enter Second Name">
+            <label for="candidateIdNumber">ID Number:</label>
+            <input type="text" id="candidateIdNumber" placeholder="Enter ID Number">
+            <label for="candidateNumber">Candidate Number:</label>
+            <input type="text" id="candidateNumber" placeholder="Enter Candidate Number">
+            <label for="candidateVoterNumber">Voter Number:</label>
+            <input type="text" id="candidateVoterNumber" placeholder="Enter Voter Number">
+            <label for="candidatePhoneNumber">Phone Number:</label>
+            <input type="text" id="candidatePhoneNumber" placeholder="Enter Phone Number">
+            <label for="candidateCounty">County:</label>
+            <input type="text" id="candidateCounty" placeholder="Enter County">
+            <label for="candidateConstituency">Constituency:</label>
+            <input type="text" id="candidateConstituency" placeholder="Enter Constituency">
+            <label for="candidateSeatPosition">Seat Position:</label>
+            <input type="text" id="candidateSeatPosition" placeholder="Enter Seat Position">
+            <button onclick="submitCandidate()">Submit Registration</button>
         </div>
-        <div class="chicken-item">
-            <img src="images/webcollection2.jpeg" alt="Chicken 2"> <!-- Replace with your image file -->
-            <div class="description">Tender chicken thighs, perfect for grilling</div>
-            <div class="price" onclick="toggleContact('contact2')">$22.99</div>
-            <div id="contact2" class="contact-info">
-                Contact us at: (123) 456-7890<br>
-                Email: info@marikuku.com
-            </div>
-            <button>Order</button>
+
+        <!-- Candidate Login Form -->
+        <div id="candidateLoginForm" class="form-fields">
+            <h3>Candidate Login</h3>
+            <label for="candidateLoginName">Name:</label>
+            <input type="text" id="candidateLoginName" placeholder="Enter Your Name">
+            <label for="candidateLoginIdNumber">ID Number:</label>
+            <input type="text" id="candidateLoginIdNumber" placeholder="Enter ID Number">
+            <label for="candidateLoginVoterNumber">Voter Number:</label>
+            <input type="text" id="candidateLoginVoterNumber" placeholder="Enter Voter Number">
+            <button onclick="submitCandidateLogin()">Submit Login</button>
         </div>
-        <div class="chicken-item">
-            <img src="images/webcollection3.jpeg" alt="Chicken 3"> <!-- Replace with your image file -->
-            <div class="description">Juicy chicken breasts, ideal for healthy meals</div>
-            <div class="price" onclick="toggleContact('contact3')">$25.99</div>
-            <div id="contact3" class="contact-info">
-                Contact us at: (123) 456-7890<br>
-                Email: info@marikuku.com
-            </div>
-            <button>Order</button>
-        </div>
-        <!-- Add more chicken items as needed -->
     </div>
-</section>
 
-<section id="about" class="content-section">
-    <h1>About Us</h1>
-    <p>Information about us...</p>
-</section>
+    <!-- Results Section -->
+    <div id="resultsSection" class="results-section">
+        <h1>President</h1>
+        <div class="picture-space" id="presidentPictures">
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+        </div>
 
-<section id="contact" class="content-section">
-    <h1>Contact Us</h1>
-    <p>Contact information...</p>
-</section>
+        <h2 class="position">Governor</h2>
+        <div class="picture-space" id="governorPictures">
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+        </div>
 
-<section id="blog" class="content-section">
-    <h1>Blog</h1>
-    <p>Latest blog posts...</p>
-</section>
+        <h2 class="position">Senator</h2>
+        <div class="picture-space" id="senatorPictures">
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+        </div>
 
-<script>
-    function showSection(sectionId) {
-        // Hide all sections
-        document.querySelectorAll('.content-section').forEach(section => {
-            section.classList.remove('active');
-        });
-        
-        // Show the selected section
-        document.getElementById(sectionId).classList.add('active');
-    }
+        <h2 class="position">Women Representative</h2>
+        <div class="picture-space" id="womenRepPictures">
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+        </div>
 
-    function toggleContact(contactId) {
-        const contactInfo = document.getElementById(contactId);
-        contactInfo.style.display = contactInfo.style.display === 'none' || contactInfo.style.display === '' ? 'block' : 'none';
-    }
+        <h2 class="position">Member of Parliament</h2>
+        <div class="picture-space" id="mpPictures">
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+        </div>
 
-    // Initialize to show the home section on page load
-    document.addEventListener('DOMContentLoaded', () => {
-        showSection('home');
-    });
-</script>
+        <h2 class="position">Member of County Assembly (MCA)</h2>
+        <div class="picture-space" id="mcaPictures">
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+            <div class="picture" onclick="selectPicture(this)">
+                <img src="" alt="">
+                <div class="tick">✔</div>
+            </div>
+        </div>
+
+        <!-- Vote Button -->
+        <button id="voteButton" onclick="submitVote()">Vote</button>
+    </div>
+
+    <script>
+        // Function to show voter options and hide both main buttons
+        function showVoterOptions() {
+            document.getElementById("voterButton").style.display = "none";
+            document.getElementById("candidateButton").style.display = "none";
+            document.getElementById("voterSection").style.display = "block";
+        }
+
+        // Function to show candidate options and hide both main buttons
+        function showCandidateOptions() {
+            document.getElementById("voterButton").style.display = "none";
+            document.getElementById("candidateButton").style.display = "none";
+            document.getElementById("candidateSection").style.display = "block";
+        }
+
+        // Show Register Form Fields and hide the Register button
+        function showRegisterForm() {
+            document.getElementById("registerButton").style.display = "none";
+            document.getElementById("loginButton").style.display = "none";
+            document.getElementById("registerForm").style.display = "block";
+        }
+
+        // Show Login Form Fields and hide the Login button
+        function showLoginForm() {
+            document.getElementById("loginButton").style.display = "none";
+            document.getElementById("registerButton").style.display = "none";
+            document.getElementById("loginForm").style.display = "block";
+        }
+
+        // Show Candidate Registration Form Fields and hide the Candidate Register button
+        function showCandidateRegisterForm() {
+            document.getElementById("candidateRegisterButton").style.display = "none";
+            document.getElementById("candidateLoginButton").style.display = "none";
+            document.getElementById("candidateRegisterForm").style.display = "block";
+        }
+
+        // Show Candidate Login Form Fields and hide the Candidate Login button
+        function showCandidateLoginForm() {
+            document.getElementById("candidateLoginButton").style.display = "none";
+            document.getElementById("candidateRegisterButton").style.display = "none";
+            document.getElementById("candidateLoginForm").style.display = "block";
+        }
+
+        // Placeholder function for voter registration/login submission
+        function submitVoter(action) {
+            alert(action === 'register' ? "Registering Voter..." : "Logging in Voter...");
+            // Add form submission logic here
+            showResults();
+        }
+
+        // Placeholder function for candidate registration submission
+        function submitCandidate() {
+            alert("Registering Candidate...");
+            // Add form submission logic here
+            showResults();
+        }
+
+        // Placeholder function for candidate login submission
+        function submitCandidateLogin() {
+            alert("Logging in Candidate...");
+            // Add form submission logic here
+            showResults();
+        }
+
+        // Show results section and hide other sections
+        function showResults() {
+            document.querySelectorAll('.form-section, .form-fields').forEach(section => section.style.display = "none");
+            document.getElementById("resultsSection").style.display = "block";
+        }
+
+        // Function to select a picture
+        function selectPicture(pictureElement) {
+            // Deselect previously selected pictures in the same section
+            const parentSpace = pictureElement.parentElement;
+            const ticks = parentSpace.querySelectorAll('.tick');
+            ticks.forEach(tick => tick.style.display = "none");
+
+            // Show the tick for the selected picture
+            const tick = pictureElement.querySelector('.tick');
+            tick.style.display = "block";
+        }
+
+        // Function to handle vote submission
+        function submitVote() {
+            const sections = ['presidentPictures', 'governorPictures', 'senatorPictures', 'womenRepPictures', 'mpPictures', 'mcaPictures'];
+            sections.forEach(sectionId => {
+                const pictures = document.getElementById(sectionId).querySelectorAll('.picture');
+                pictures.forEach(picture => {
+                    const tick = picture.querySelector('.tick');
+                    if (tick.style.display === "block") {
+                        picture.classList.remove('hidden'); // Keep selected picture
+                    } else {
+                        picture.classList.add('hidden'); // Hide unselected picture
+                    }
+                });
+            });
+            alert("Vote Submitted! Thank you for participating.");
+            // Add vote submission logic here
+        }
+    </script>
 
 </body>
 </html>
